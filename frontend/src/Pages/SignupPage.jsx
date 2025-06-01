@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAuthStore } from "../store/useAuthStore";
-import { Eye, EyeOff, Loader2, Lock, Mail, MessageCircle, UserRound } from "lucide-react";
+import { useAuthStore } from "../Store/useAuthStore";
+import { Eye, EyeOff, Loader2, Lock, Mail, MessageCircle, User } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import AuthImagePattern from "../Components/AuthImagePattern";
@@ -60,7 +60,7 @@ const SignUpPage = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <UserRound className="size-5 text-base-content/40" />
+                  <User className="size-5 text-base-content/40 z-10" />
                 </div>
                 <input
                   type="text"
@@ -78,7 +78,7 @@ const SignUpPage = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="size-5 text-base-content/40" />
+                  <Mail className="size-5 text-base-content/40 z-10" />
                 </div>
                 <input
                   type="email"
@@ -96,7 +96,7 @@ const SignUpPage = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="size-5 text-base-content/40" />
+                  <Lock className="size-5 text-base-content/40 z-10" />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
@@ -107,7 +107,7 @@ const SignUpPage = () => {
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center z-10"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
