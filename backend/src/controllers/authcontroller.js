@@ -34,6 +34,7 @@ export const signup = async (req, res) => {
                 username: newUser.username,
                 email: newUser.email,
                 profilepic: newUser.profilepic,
+                createdAt: newuser.createdAt,
             });
         } else {
             res.status(400).json({ message: "Invalid user data "});
@@ -68,6 +69,7 @@ export const login = async (req, res) => {
             username: user.username,
             email: user.email,
             profilepic: user.profilepic,
+            createdAt: user.createdAt,
         });
     } catch (error) {
         console.log("Error in login controller", error.message);
