@@ -72,3 +72,11 @@ html, body {
   --depth: 1;
   --noise: 1;
 }
+
+.ai-message {
+  background-color: #e0f7fa !important;
+  color: #00796b !important;
+  padding: 8px;
+  border-radius: 8px;
+  margin: 5px 0;
+}

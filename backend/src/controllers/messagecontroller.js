@@ -21,6 +21,9 @@ export const getMessages = async (req, res) => {
     const { id: userToChatId } = req.params;
     const myId = req.user._id;
 
+    if (userToChatId.startsWith("ai_")) {
+      return res.status(200).json([]);
+    }
     const messages = await Message.find({
       $or: [
         { senderId: myId, receiverId: userToChatId },
@@ -40,6 +43,17 @@ export const sendMessage = async (req, res) => {
     const { text, image } = req.body;
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
+
+    if (receiverId.startsWith("ai_")) {
+      return res.status(201).json({
+        senderId,
+        receiverId,
+        text,
+        image: null,
+        createdAt: new Date(),
+        isAI: true,
+      });
+    }
 
     let imageUrl;
     if (image) {
