@@ -19,7 +19,7 @@ export const authenticator = async (req, res, next) => {
             return res.status(401).json({message: "Invalid User"});
         }
 
-        req.user = User
+        req.user = user
 
         next()
     } catch (error) {
