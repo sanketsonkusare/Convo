@@ -1,7 +1,8 @@
 import { Server } from "socket.io";
 import http from "http";
 import express from "express";
-import openai from "./openai.js";
+import { queryHuggingFace } from "./hugggingface.js";
+
 
 const app = express();
 const server = http.createServer(app);
@@ -29,6 +30,7 @@ io.on("connection", (socket) => {
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
    socket.on('sendMessage', async (messageData) => {
+    console.log("Received messageData:", messageData);
     io.to(messageData.roomId).emit('receiveMessage', messageData);
 
     // Check if message includes '@convo'
@@ -36,15 +38,9 @@ io.on("connection", (socket) => {
       (messageData.roomId && messageData.roomId.startsWith('ai_')) ||
       (messageData.text && messageData.text.includes('@convo'))
     ) {
+      console.log("AI logic triggered for room:", messageData.roomId, "text:", messageData.text);
       try {
-        const completion = await openai.createChatCompletion({
-          model: "gpt-3.5-turbo",
-          messages: [
-            { role: "user", content: messageData.text },
-          ],
-        });
-
-        const aiReply = completion.data.choices[0].message.content;
+        const aiReply = await queryHuggingFace(messageData.text);
 
         const aiMessage = {
           sender: 'ConvoAI',

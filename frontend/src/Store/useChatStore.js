@@ -34,12 +34,17 @@ export const useChatStore = create((set, get) => ({
     }
   },
   sendMessage: async (messageData) => {
-    const { selectedUser, messages } = get();
-    try {
-      const res = await axiosInstance.post(`/message/send/${selectedUser._id}`, messageData);
-      set({ messages: [...messages, res.data] });
+  const { messages } = get();
+  const socket = useAuthStore.getState().socket;
+
+  try {
+    socket.emit("sendMessage", messageData);
+
+    // Optimistically update UI
+    set({ messages: [...messages, messageData] });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error("Failed to send message via socket.");
+      console.error("Socket send error:", error);
     }
   },
 
@@ -49,14 +54,21 @@ export const useChatStore = create((set, get) => ({
 
     const socket = useAuthStore.getState().socket;
 
-    socket.on("newMessage", (newMessage) => {
-      const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
-      if (!isMessageSentFromSelectedUser) return;
+    socket.on("receiveMessage", (newMessage) => {
+      const { selectedUser, messages } = get();
+      const currentUserId = useAuthStore.getState().user._id;
 
-      set({
-        messages: [...get().messages, newMessage],
-      });
+      const isCurrentRoom = newMessage.roomId === selectedUser._id;
+      if (!isCurrentRoom) return;
+
+      const labeledMessage = {
+        ...newMessage,
+        isSender: newMessage.senderId === currentUserId,
+      };
+
+      set({ messages: [...messages, labeledMessage] });
     });
+
   },
 
   unsubscribeFromMessages: () => {
