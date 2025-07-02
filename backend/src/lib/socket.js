@@ -27,12 +27,20 @@ io.on("connection", (socket) => {
   // io.emit() is used to send events to all the connected clients
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
+  // Handle room joining for AI chats
+  socket.on("joinRoom", (roomId) => {
+    socket.join(roomId);
+    console.log(`User ${userId} joined room ${roomId}`);
+  });
+
   // Listen for sendMessage event from client
   socket.on("sendMessage", async (messageData) => {
-    if (
-      messageData.roomId && messageData.roomId.startsWith("ai_")
-    ) {
+    console.log("Received sendMessage:", messageData); // Debug log
+    
+    if (messageData.roomId && messageData.roomId.startsWith("ai_")) {
       try {
+        console.log("Processing AI message for room:", messageData.roomId); // Debug log
+        
         const axios = (await import("axios")).default;
         const response = await axios.post(
           "https://openrouter.ai/api/v1/chat/completions",
@@ -50,6 +58,8 @@ io.on("connection", (socket) => {
           }
         );
 
+        console.log("OpenRouter response:", response.data); // Debug log
+
         const aiReply = response.data.choices[0].message.content;
 
         const aiMessage = {
@@ -59,13 +69,16 @@ io.on("connection", (socket) => {
           timestamp: new Date(),
         };
 
+        console.log("Sending AI response to room:", messageData.roomId, aiMessage); // Debug log
         io.to(messageData.roomId).emit("receiveMessage", aiMessage);
 
       } catch (err) {
         console.error("OpenRouter Error:", err.response?.data || err.message);
+        console.error("Full error:", err); // More detailed error log
+        
         const aiMessage = {
           sender: "ConvoAI",
-          text: "AI could not process your request.",
+          text: "Sorry, I'm having trouble processing your request right now. Please try again later.",
           roomId: messageData.roomId,
           timestamp: new Date(),
         };
