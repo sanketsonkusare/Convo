@@ -2,7 +2,7 @@
 
 A modern real-time chat application with integrated AI assistant, built with React, Node.js, Socket.IO, and OpenRouter AI.
 
-![Convo Chat App](https://via.placeholder.com/800x400/6366f1/ffffff?text=Convo+Chat+App)
+![Convo Chat App]()
 
 ## ✨ Features
 
@@ -218,7 +218,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you have any questions or need help, please:
 - Open an issue on GitHub
-- Contact: [your-email@example.com]
+- Contact: [sanketsonkusare01@gmail.com]
 - Documentation: [Link to docs if any]
 
 ---
