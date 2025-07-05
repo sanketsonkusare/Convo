@@ -7,7 +7,7 @@ import { Users } from "lucide-react";
 const Sidebar = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
 
-  const { onlineUsers, authUser } = useAuthStore();
+  const { onlineUsers } = useAuthStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
 
   useEffect(() => {
@@ -19,8 +19,6 @@ const Sidebar = () => {
     : users;
 
   if (isUsersLoading) return <SidebarSkeleton />;
-
-   const aiChatId = authUser ? `ai_${authUser._id}` : null;
 
   return (
     <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
@@ -45,30 +43,6 @@ const Sidebar = () => {
       </div>
 
       <div className="overflow-y-auto w-full py-3">
-        {aiChatId && (
-          <button
-            onClick={() => setSelectedUser({ _id: aiChatId, username: "ConvoAI", isAI: true })}
-            className={`
-              w-full p-3 flex items-center gap-3
-              hover:bg-base-300 transition-colors
-              ${selectedUser?._id === aiChatId ? "bg-base-300 ring-1 ring-base-300" : ""}
-            `}
-          >
-            <div className="relative mx-auto lg:mx-0">
-              <span
-                className="size-12 flex items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-purple-600 text-white text-2xl"
-                role="img"
-                aria-label="AI"
-              >
-                🤖
-              </span>
-            </div>
-            <div className="hidden lg:block text-left min-w-0">
-              <div className="font-medium truncate">ConvoAI</div>
-              <div className="text-sm text-zinc-400">AI Assistant</div>
-            </div>
-          </button>
-        )}
         {filteredUsers.map((user) => (
           <button
             key={user._id}
