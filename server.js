@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 app.use(cors({
   origin: process.env.NODE_ENV === "production" 
-    ? [process.env.CLIENT_URL, "https://*.onrender.com"] 
+    ? "https://convo-3jj4.onrender.com"
     : "http://localhost:5173",
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
