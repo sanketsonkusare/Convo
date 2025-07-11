@@ -3,7 +3,9 @@ import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
-const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "/";
+const BASE_URL = import.meta.env.MODE === "development" 
+  ? "http://localhost:5001" 
+  : window.location.origin;
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
@@ -90,18 +92,29 @@ export const useAuthStore = create((set, get) => ({
       query: {
         userId: authUser._id,
       },
+      withCredentials: true,
+      transports: ['websocket', 'polling'] // Add fallback transport
     });
+    
     socket.connect();
-
     set({ socket: socket });
 
     socket.on("getOnlineUsers", (userIds) => {
       set({ onlineUsers: userIds });
     });
+    
     socket.emit("joinRoom", `ai_${authUser._id}`);
     console.log(`Joining AI room: ai_${authUser._id}`);
+
+    // Add error handling
+    socket.on("connect_error", (error) => {
+      console.error("Socket connection error:", error);
+    });
   },
+
   disconnectSocket: () => {
-    if (get().socket?.connected) get().socket.disconnect();
+    if (get().socket?.connected) {
+      get().socket.disconnect();
+    }
   },
 }));
