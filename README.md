@@ -2,6 +2,8 @@
 
 A modern real-time chat application with integrated AI assistant, built with React, Node.js, Socket.IO, and OpenRouter AI.
 
+🌐 **Live Demo**: [https://convo-3jj4.onrender.com/](https://convo-3jj4.onrender.com/)
+
 ![Convo Chat App]()
 
 ## ✨ Features
@@ -48,27 +50,23 @@ A modern real-time chat application with integrated AI assistant, built with Rea
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/convo-chat-app.git
-   cd convo-chat-app
+   git clone https://github.com/sanketsonkusare/Convo.git
+   cd Convo
    ```
 
 2. **Install dependencies**
    ```bash
-   # Install root dependencies
+   # Install backend dependencies
    npm install
    
    # Install frontend dependencies
    cd frontend
    npm install
-   
-   # Install backend dependencies
-   cd ../backend
-   npm install
    ```
 
 3. **Environment Setup**
    
-   Create `.env` file in the backend directory:
+   Create `.env` file in the root directory:
    ```env
    MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/convo-db
    JWT_SECRET=your-super-secret-jwt-key-here
@@ -80,29 +78,31 @@ A modern real-time chat application with integrated AI assistant, built with Rea
    OPENROUTER_API=your-openrouter-api-key
    ```
 
-   Create `.env` file in the frontend directory:
-   ```env
-   VITE_API_URL=http://localhost:5001
-   ```
-
 4. **Start the application**
    
-   Open 2 terminals:
+   **Development Mode (2 terminals):**
    
-   **Terminal 1 - Backend:**
+   Terminal 1 - Backend:
    ```bash
-   cd backend
    npm run dev
    ```
    
-   **Terminal 2 - Frontend:**
+   Terminal 2 - Frontend:
    ```bash
    cd frontend
    npm run dev
    ```
+   
+   **Production Mode (Single command):**
+   ```bash
+   # Build frontend and start server
+   npm run build
+   npm start
+   ```
 
 5. **Open your browser**
-   Navigate to `http://localhost:5173`
+   - Development: `http://localhost:5173` (frontend) + `http://localhost:5001` (backend)
+   - Production: `http://localhost:5001` (full app)
 
 ## 🔧 Configuration
 
@@ -137,6 +137,38 @@ A modern real-time chat application with integrated AI assistant, built with Rea
 3. Get intelligent responses powered by Mistral AI
 4. Enjoy formatted responses with markdown support
 
+## 🚀 Deployment
+
+### Deploy to Render
+
+1. **Fork this repository** to your GitHub account
+
+2. **Create a new Web Service** on [Render](https://render.com/)
+
+3. **Configure the service:**
+   - **Build Command**: `npm install --production=false && cd frontend && npm install --production=false && npm run build`
+   - **Start Command**: `npm start`
+   - **Node Version**: 18 or higher
+
+4. **Set Environment Variables:**
+   ```env
+   NODE_ENV=production
+   MONGODB_URI=your-mongodb-connection-string
+   JWT_SECRET=your-super-secret-jwt-key-here
+   CLOUDINARY_CLOUD_NAME=your-cloudinary-name
+   CLOUDINARY_API_KEY=your-cloudinary-api-key
+   CLOUDINARY_API_SECRET=your-cloudinary-api-secret
+   OPENROUTER_API=your-openrouter-api-key
+   ```
+
+5. **Deploy!** Your app will be available at your Render URL
+
+### Other Deployment Options
+- **Vercel**: Use for frontend-only deployment
+- **Heroku**: Traditional PaaS deployment
+- **DigitalOcean**: App Platform deployment
+- **Railway**: Modern deployment platform
+
 
 ## 🔌 API Endpoints
 
@@ -168,10 +200,43 @@ The app uses DaisyUI themes. You can customize in `frontend/src/App.jsx`:
 ```
 
 ### AI Model
-Change the AI model in `backend/src/lib/socket.js`:
+Change the AI model in `lib/socket.js`:
 ```javascript
 model: "mistralai/mistral-small-3.2-24b-instruct:free"
 // Or use other OpenRouter models
+```
+
+## 📁 Project Structure
+
+```
+Convo/
+├── frontend/                 # React frontend application
+│   ├── src/
+│   │   ├── Components/       # Reusable UI components
+│   │   ├── Pages/           # Application pages
+│   │   ├── Store/           # Zustand state management
+│   │   └── lib/             # Frontend utilities
+│   ├── public/              # Static assets
+│   └── package.json         # Frontend dependencies
+├── lib/                     # Backend utilities
+│   ├── cloudinary.js        # Image upload configuration
+│   ├── db.js                # Database connection
+│   ├── socket.js            # Socket.IO configuration
+│   └── utils.js             # Backend utilities
+├── routes/                  # API routes
+│   ├── authroute.js         # Authentication endpoints
+│   └── messageroute.js      # Message endpoints
+├── controllers/             # Route controllers
+│   ├── authcontroller.js    # Auth logic
+│   └── messagecontroller.js # Message logic
+├── middleware/              # Custom middleware
+│   └── authmiddleware.js    # JWT authentication
+├── models/                  # Database models
+│   ├── usermodel.js         # User schema
+│   └── messagemodel.js      # Message schema
+├── server.js                # Express server entry point
+├── package.json             # Backend dependencies
+└── README.md                # Project documentation
 ```
 
 ## 🐛 Troubleshooting
@@ -181,18 +246,31 @@ model: "mistralai/mistral-small-3.2-24b-instruct:free"
 1. **Socket connection fails**
    - Check if backend is running on correct port
    - Verify CORS settings in production
+   - Ensure frontend is built (`npm run build`) for production
 
 2. **AI not responding**
    - Verify OpenRouter API key
    - Check API rate limits
+   - Check console for Socket.IO errors
 
 3. **Images not uploading**
    - Verify Cloudinary credentials
-   - Check file size limits
+   - Check file size limits (10MB max)
+   - Ensure proper permissions
 
 4. **Database connection fails**
-   - Verify MongoDB URI
+   - Verify MongoDB URI format
    - Check network access in MongoDB Atlas
+   - Ensure database user has proper permissions
+
+5. **Build/Deployment issues**
+   - Use Node.js version 18 or higher
+   - Run `npm install --production=false` for dev dependencies
+   - Check environment variables are set correctly
+
+6. **Express v5 compatibility issues**
+   - This project uses Express v4.18.0 for stability
+   - Avoid upgrading to Express v5 until ecosystem catches up
 
 ## 🤝 Contributing
 
@@ -217,12 +295,23 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 If you have any questions or need help, please:
-- Open an issue on GitHub
-- Contact: [sanketsonkusare01@gmail.com]
-- Documentation: [Link to docs if any]
+- 🐛 Open an issue on [GitHub](https://github.com/sanketsonkusare/Convo/issues)
+- 📧 Contact: [sanketsonkusare01@gmail.com](mailto:sanketsonkusare01@gmail.com)
+- 🌐 Live Demo: [https://convo-3jj4.onrender.com/](https://convo-3jj4.onrender.com/)
+
+## 🎯 Features Roadmap
+
+- [ ] Group chat functionality
+- [ ] File sharing (documents, videos)
+- [ ] Voice messages
+- [ ] Message reactions and replies
+- [ ] User status and custom messages
+- [ ] Push notifications
+- [ ] Mobile app (React Native)
+- [ ] End-to-end encryption
 
 ---
 
-**Made with ❤️ by Sanket**
+**Made with ❤️ by [Sanket Sonkusare](https://github.com/sanketsonkusare)**
 
 ⭐ Star this repository if you find it helpful!
