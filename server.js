@@ -5,10 +5,10 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import authRoutes from './backend/src/routes/authroute.js';
-import messageRoutes from './backend/src/routes/messageroute.js';
-import { connectDB } from './backend/src/lib/db.js';
-import { app, server } from './backend/src/lib/socket.js';
+import authRoutes from './routes/authroute.js';
+import messageRoutes from './routes/messageroute.js';
+import { connectDB } from './lib/db.js';
+import { app, server } from './lib/socket.js';
 
 dotenv.config();
 
