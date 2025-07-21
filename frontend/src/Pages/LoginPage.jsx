@@ -32,7 +32,7 @@ const LoginPage = () => {
                 <MessageCircle className="w-6 h-6 text-primary" />
               </div>
               <h1 className="text-2xl font-bold mt-2">Welcome Back</h1>
-              <p className="text-base-content/60">Log in to your account</p>
+              <p className="text-base-content/60">Log in to your account <br/> Or use Email: demo@demo.com Password: demo123</p>
             </div>
           </div>
 
