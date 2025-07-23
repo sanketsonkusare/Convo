@@ -2,7 +2,7 @@
 
 A modern real-time chat application with integrated AI assistant, built with React, Node.js, Socket.IO, and OpenRouter AI.
 
-🌐 **Live Demo**: [https://convo-3jj4.onrender.com/](https://convo-3jj4.onrender.com/)
+🌐 **Live Demo**: [https://sanketsonkusare.me/projects/convo](https://sanketsonkusare.me/projects/convo)
 
 ![Convo Chat App]()
 
