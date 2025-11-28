@@ -2,7 +2,7 @@
 
 A modern real-time chat application with integrated AI assistant, built with React, Node.js, Socket.IO, and OpenRouter AI.
 
-🌐 **Live Demo**: [https://convo-3jj4.onrender.com/](https://convo-3jj4.onrender.com/)
+🌐 **Live Demo**: [https://sanketsonkusare.me/projects/convo](https://sanketsonkusare.me/projects/convo)
 
 ![Convo Chat App]()
 
@@ -315,4 +315,7 @@ If you have any questions or need help, please:
 **Made with ❤️ by [Sanket Sonkusare](https://github.com/sanketsonkusare)**
 
 ⭐ Star this repository if you find it helpful!
+<<<<<<< HEAD
 test text
+=======
+>>>>>>> a58f8e0d828c713be538a60eb784d6c64119d36a
