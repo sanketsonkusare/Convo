@@ -315,7 +315,3 @@ If you have any questions or need help, please:
 **Made with ❤️ by [Sanket Sonkusare](https://github.com/sanketsonkusare)**
 
 ⭐ Star this repository if you find it helpful!
-<<<<<<< HEAD
-test text
-=======
->>>>>>> a58f8e0d828c713be538a60eb784d6c64119d36a
