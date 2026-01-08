@@ -202,7 +202,7 @@ The app uses DaisyUI themes. You can customize in `frontend/src/App.jsx`:
 ### AI Model
 Change the AI model in `lib/socket.js`:
 ```javascript
-model: "mistralai/mistral-small-3.2-24b-instruct:free"
+model: "mistralai/devstral-2512:free"
 // Or use other OpenRouter models
 ```
 

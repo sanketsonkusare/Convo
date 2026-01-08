@@ -48,15 +48,15 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
-sendMessage: async (messageData) => {
+  sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
     try {
       if (selectedUser.isAI) {
         console.log("Sending AI message:", messageData);
-        
+
         // Set AI thinking state to true
         set({ isAIThinking: true });
-        
+
         // Handle AI message
         const userMessage = {
           _id: Date.now().toString() + "_user",
@@ -66,20 +66,20 @@ sendMessage: async (messageData) => {
           image: messageData.image,
           createdAt: new Date().toISOString()
         };
-        
+
         const updatedMessages = [...messages, userMessage];
         set({ messages: updatedMessages });
-        
+
         // Save to localStorage
         localStorage.setItem("ai-messages", JSON.stringify(updatedMessages));
-        
+
         // Send to AI via socket
         const socket = useAuthStore.getState().socket;
         if (socket) {
           const messageToSend = {
             text: messageData.text,
             roomId: `ai_${useAuthStore.getState().authUser._id}`,
-            model: "mistralai/mistral-small-3.2-24b-instruct:free"
+            model: "mistralai/devstral-2512:free"
           };
           console.log("Emitting sendMessage:", messageToSend);
           socket.emit("sendMessage", messageToSend);
@@ -112,15 +112,15 @@ sendMessage: async (messageData) => {
 
     if (selectedUser.isAI) {
       console.log("Subscribing to AI messages for room:", `ai_${useAuthStore.getState().authUser._id}`);
-      
+
       // Listen for AI responses
       socket.on("receiveMessage", (aiMessage) => {
         console.log("Frontend received AI message:", aiMessage);
-        
+
         if (aiMessage.roomId === `ai_${useAuthStore.getState().authUser._id}`) {
           // Stop thinking animation
           set({ isAIThinking: false });
-          
+
           const aiReply = {
             _id: Date.now().toString() + "_ai",
             senderId: "convo-ai",
@@ -128,11 +128,11 @@ sendMessage: async (messageData) => {
             text: aiMessage.text,
             createdAt: new Date().toISOString()
           };
-          
+
           const currentMessages = get().messages;
           const updatedMessages = [...currentMessages, aiReply];
           set({ messages: updatedMessages });
-          
+
           // Save to localStorage
           localStorage.setItem("ai-messages", JSON.stringify(updatedMessages));
         }
